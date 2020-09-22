@@ -79,7 +79,7 @@ export function Todolist(props: PropsType) {
                     props.changeStatus(t.id, e.currentTarget.checked)
                 }
 
-                return <li key={t.id}><input
+                return <li key={t.id} className={t.isDone? 'is-done':''}><input
                     type="checkbox"
                     onChange={onChangeHandler}
                     checked={t.isDone}
