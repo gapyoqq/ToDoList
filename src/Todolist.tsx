@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValuesType} from "./AppWithReducers";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -18,7 +18,7 @@ type PropsType = {
     title: string
     tasks: TaskType[]
     removeTask: (taskId: string, todolistId: string) => void
-    changeFilter: ( todolistId: string, filter: FilterValuesType) => void
+    changeFilter: (todolistId: string, filter: FilterValuesType) => void
     addTask: (newTaskTitle: string, todolistId: string) => void
     changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
     filter: FilterValuesType
@@ -27,30 +27,39 @@ type PropsType = {
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
-export function Todolist(props: PropsType) {
+export const Todolist = React.memo((props: PropsType) => {
 
     const onAllClickHandler = () => {
-        props.changeFilter(props.id,'all')
+        props.changeFilter(props.id, 'all')
 
     }
     const onActiveClickHandler = () => {
-        props.changeFilter(props.id,'active')
+        props.changeFilter(props.id, 'active')
     }
     const onCompletedClickHandler = () => {
-        props.changeFilter(props.id,'completed')
+        props.changeFilter(props.id, 'completed')
     }
     const removeTodolist = () => {
         props.removeTodolist(props.id)
     }
 
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
-    }
+    }, [])
 
     const changeTodolistTitle = (newTitle: string) => {
         props.changeTodolistTitle(props.id, newTitle)
     }
 
+    let tasksForTodoList = props.tasks
+
+    if (props.filter === 'active') {
+        tasksForTodoList = props.tasks.filter(t => !t.isDone)
+    }
+
+    if (props.filter === 'completed') {
+        tasksForTodoList = props.tasks.filter(t => t.isDone)
+    }
     return <div>
         <h3><EditableSpan title={props.title} OnChangeCallback={changeTodolistTitle}/>
             <IconButton onClick={removeTodolist}>
@@ -97,6 +106,6 @@ export function Todolist(props: PropsType) {
             </Button>
         </div>
     </div>
-}
+})
 
 
