@@ -1,9 +1,10 @@
-import React, {ChangeEvent, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {FilterValuesType} from "./AppWithReducers";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Button, Checkbox, IconButton} from "@material-ui/core";
-import {CheckBox, Delete} from "@material-ui/icons";
+import {Button, IconButton} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
+import {Task} from "./Task";
 
 
 export type TaskType = {
@@ -17,39 +18,43 @@ type PropsType = {
     id: string
     title: string
     tasks: TaskType[]
-    removeTask: (taskId: string, todolistId: string) => void
     changeFilter: (todolistId: string, filter: FilterValuesType) => void
     addTask: (newTaskTitle: string, todolistId: string) => void
+    removeTask: (taskId: string, todolistId: string) => void
     changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
 export const Todolist = React.memo((props: PropsType) => {
 
-    const onAllClickHandler = () => {
+    const onAllClickHandler = useCallback(() => {
         props.changeFilter(props.id, 'all')
+    }, [props.changeFilter, props.id])
 
-    }
-    const onActiveClickHandler = () => {
+    const onActiveClickHandler = useCallback(() => {
         props.changeFilter(props.id, 'active')
-    }
-    const onCompletedClickHandler = () => {
+    }, [props.changeFilter, props.id])
+
+    const onCompletedClickHandler = useCallback(() => {
         props.changeFilter(props.id, 'completed')
-    }
+    }, [props.changeFilter, props.id])
+
+
     const removeTodolist = () => {
         props.removeTodolist(props.id)
     }
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
-    }, [])
+    }, [props.addTask, props.id])
 
-    const changeTodolistTitle = (newTitle: string) => {
+    const changeTodolistTitle = useCallback((newTitle: string) => {
         props.changeTodolistTitle(props.id, newTitle)
-    }
+    }, [props.id, props.changeTodolistTitle])
 
     let tasksForTodoList = props.tasks
 
@@ -68,28 +73,13 @@ export const Todolist = React.memo((props: PropsType) => {
         </h3>
         <AddItemForm addItem={addTask}/>
         {
-            props.tasks.map(t => {
-                const onRemoveHandler = () => {
-                    props.removeTask(t.id, props.id)
-                }
-                const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                    props.changeStatus(t.id, e.currentTarget.checked, props.id)
-                }
-                const onChangeTitleHandler = (newValue: string) => {
-                    props.changeTaskTitle(t.id, newValue, props.id)
-                }
-
-                return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                    <Checkbox
-                        onChange={onChangeStatusHandler}
-                        checked={t.isDone}
-                    />
-                    <EditableSpan OnChangeCallback={onChangeTitleHandler} title={t.title}/>
-                    <IconButton onClick={onRemoveHandler}>
-                        <Delete/>
-                    </IconButton>
-                </li>
-            })
+            props.tasks.map(t => <Task changeStatus={props.changeStatus}
+                                       changeTaskTitle={props.changeTaskTitle}
+                                       removeTask={props.removeTask}
+                                       task={t}
+                                       todoListId={props.id}
+                                       key={t.id}/>
+            )
         }
         <div>
             <Button variant={props.filter === 'all' ? "contained" : 'text'}
