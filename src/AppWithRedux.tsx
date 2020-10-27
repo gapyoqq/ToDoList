@@ -1,17 +1,15 @@
 import React, {useCallback, useReducer, useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
-import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC,} from "./state/tasks-reducer";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC,
-    todolistsReducer
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
@@ -73,7 +71,7 @@ function AppWithRedux() {
     }, [dispatch])
 
 
-    const todoLists = useSelector<AppRootStateType, Array<TodolistType>>((state) => state.todolists)
+    const todoLists = useSelector<AppRootStateType, Array<TodolistType>>((state) => state.todoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks)
 
     return (
@@ -99,7 +97,6 @@ function AppWithRedux() {
                     {
                         todoLists.map((tl) => {
                             let tasksForTodoList: Array<TaskType> = tasks[tl.id];
-
 
 
                             return <Grid item>
