@@ -1,11 +1,13 @@
 import React from "react";
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
+import {ReduxStoreProviderDecorator} from "./stories/ReduxStoreProviderDecorator";
 
 
 export default {
     title: 'Task Component',
-    component: Task
+    component: Task,
+    decorators: [ReduxStoreProviderDecorator]
 }
 
 const changeTaskStatusCallback = action('Status changed ')
