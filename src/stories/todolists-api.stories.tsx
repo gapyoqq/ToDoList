@@ -26,7 +26,7 @@ export const CreateTodolist = () => {
         let title = 'Redux'
         todoListAPI.createTodoList(title)
             .then((res) => {
-                setState(res.data)
+                setState(res.data.data.item)
             })
 
     }, [])
@@ -36,7 +36,7 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const todolistId = 'ae348b6b-c4bd-45c4-b881-d8703337f27c'
+        const todolistId = '92c83b44-d0df-47fd-9576-ac4fd3bebbad'
         todoListAPI.deleteTodoList(todolistId)
             .then((res) => {
                 setState(res.data)
@@ -48,7 +48,7 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const todolistId = '5a417b6d-9198-4c49-91ee-a30a9b38742a'
+        const todolistId = '5e73a8cc-b3a8-4314-b75e-4432d4416e0e'
         let title = 'GraphQL'
         todoListAPI.updateTodoList(todolistId, title)
             .then(
