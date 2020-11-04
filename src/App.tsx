@@ -22,7 +22,7 @@ export type TasksStateType = {
 
 function App() {
 
-    function changeStatus(taskId: string, isDone: boolean, todolistId: string) {
+    function changeStatus(taskId: string, status: TaskStatuses, todolistId: string) {
         let tasks = tasksObj[todolistId]
         let task = tasks.find((t) => t.id === taskId)
         if (task) {

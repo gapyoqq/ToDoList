@@ -1,3 +1,4 @@
+/*
 import React from "react";
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
@@ -18,18 +19,21 @@ const removeTaskCallback = action('Task removed')
 
 
 export const TaskBaseExample = () => {
+
     return <>
         <Task changeStatus={changeTaskStatusCallback}
               changeTaskTitle={changeTaskTitleCallback}
               removeTask={removeTaskCallback}
-              task={{id: '1', title:'Css', isDone:true}}
+              task={{id: '1', title: 'Css', isDone: true}}
               todoListId={'todolistId1'}
-              />
+        />
         <Task changeStatus={changeTaskStatusCallback}
               changeTaskTitle={changeTaskTitleCallback}
               removeTask={removeTaskCallback}
-              task={{id: '2', title:'JS', isDone:false}}
+              task={{id: '2', title: 'JS', isDone: false}}
               todoListId={'todolistId2'}
-              />
-        </>
+        />
+    </>;
 }
+*/
+export const a=1

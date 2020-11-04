@@ -1,5 +1,12 @@
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
-import {TasksStateType} from '../AppWithReducers';
+/*
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    tasksReducer,
+    TasksStateType
+} from './tasks-reducer';
 import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
 
 test('correct task should be deleted from correct array', () => {
@@ -22,7 +29,7 @@ test('correct task should be deleted from correct array', () => {
 
     expect(endState["todolistId1"].length).toBe(3);
     expect(endState["todolistId2"].length).toBe(2);
-    /*expect(endState["todolistId2"].every(t => t.id != "2")).toBeTruthy();*/
+    /!*expect(endState["todolistId2"].every(t => t.id != "2")).toBeTruthy();*!/
 });
 
 
@@ -149,3 +156,6 @@ test('property with todolistId should be deleted', () => {
     expect(keys.length).toBe(1);
     expect(endState["todolistId2"]).not.toBeDefined();
 });
+*/
+
+export const d = 1

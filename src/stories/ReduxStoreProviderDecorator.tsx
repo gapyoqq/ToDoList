@@ -28,6 +28,7 @@ const initialGlobalState = {
     }
 };
 
+// @ts-ignore
 export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootStateType);
 
 export const ReduxStoreProviderDecorator = (storyFn: any) => (

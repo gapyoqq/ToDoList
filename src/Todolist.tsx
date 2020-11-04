@@ -1,18 +1,13 @@
-import React, {useCallback} from 'react';
-import {FilterValuesType} from "./AppWithReducers";
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Task} from "./Task";
+import {FilterValuesType, getTasksTC} from "./state/tasks-reducer";
+import {useDispatch} from "react-redux";
+import {TaskStatuses, TaskType} from "./api/tasks-api";
 
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-
-}
 
 type PropsType = {
     id: string
@@ -21,15 +16,20 @@ type PropsType = {
     changeFilter: (todolistId: string, filter: FilterValuesType) => void
     addTask: (newTaskTitle: string, todolistId: string) => void
     removeTask: (taskId: string, todolistId: string) => void
-    changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+    changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
 }
 
 export const Todolist = React.memo((props: PropsType) => {
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getTasksTC(props.id))
+    }, [])
+
 
     const onAllClickHandler = useCallback(() => {
         props.changeFilter(props.id, 'all')
@@ -59,11 +59,11 @@ export const Todolist = React.memo((props: PropsType) => {
     let tasksForTodoList = props.tasks
 
     if (props.filter === 'active') {
-        tasksForTodoList = props.tasks.filter(t => !t.isDone)
+        tasksForTodoList = props.tasks.filter(t => t.status === TaskStatuses.New)
     }
 
     if (props.filter === 'completed') {
-        tasksForTodoList = props.tasks.filter(t => t.isDone)
+        tasksForTodoList = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
     return <div>
         <h3><EditableSpan title={props.title} OnChangeCallback={changeTodolistTitle}/>
