@@ -73,7 +73,7 @@ export const Todolist = React.memo((props: PropsType) => {
         </h3>
         <AddItemForm addItem={addTask}/>
         {
-            props.tasks.map(t => <Task changeStatus={props.changeStatus}
+            tasksForTodoList.map(t => <Task changeStatus={props.changeStatus}
                                        changeTaskTitle={props.changeTaskTitle}
                                        removeTask={props.removeTask}
                                        task={t}
