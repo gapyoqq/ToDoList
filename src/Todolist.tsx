@@ -4,7 +4,7 @@ import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Task} from "./Task";
-import {FilterValuesType, getTasksTC} from "./state/tasks-reducer";
+import {FilterValuesType, fetchTasksTC} from "./state/tasks-reducer";
 import {useDispatch} from "react-redux";
 import {TaskStatuses, TaskType} from "./api/tasks-api";
 
@@ -27,7 +27,7 @@ export const Todolist = React.memo((props: PropsType) => {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getTasksTC(props.id))
+        dispatch(fetchTasksTC(props.id))
     }, [])
 
 

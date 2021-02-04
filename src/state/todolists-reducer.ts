@@ -2,6 +2,7 @@ import {v1} from "uuid";
 import {todoListAPI} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {FilterValuesType} from "./tasks-reducer";
+import {setAppStatusAC} from "./app-reducer";
 
 export type TodolistDataType = {
     id: string
@@ -80,10 +81,12 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
 export const setTodolistsAC = (todos: Array<TodolistDomainType>) => ({type: 'SET-TODOLISTS', todos} as const)
 
 
-export const getTodolistsTC = () => (dispatch: Dispatch) => {
+export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todoListAPI.getTodoLists().then((res) => {
         let todos = res.data
         dispatch(setTodolistsAC(todos))
+        dispatch(setAppStatusAC('succeeded'))
     })
 }
 
@@ -108,11 +111,6 @@ export const changeTodolistTitleTC = (todolistId: string, title: string) => (dis
         })
 }
 
-export const changeTodolistFilterTC = (todolistId: string, filter: FilterValuesType) => (dispatch: Dispatch) => {
-    todoListAPI.updateTodoList(todolistId, filter)
-        .then((res) => {
-            dispatch(changeTodolistFilterAC(todolistId, filter))
-        })
-}
+
 
 
